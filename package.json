@@ -1,0 +1,51 @@
+{
+  "name": "postgres-interval-class",
+  "version": "1.2.0",
+  "description": "Parse Postgres interval columns",
+  "main": "dist/index.js",
+  "types": "dist",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "prepublishOnly": "yarn build",
+    "tslint": "tslint -p tsconfig.json -c tslint.json",
+    "test": "jest --verbose",
+    "test:coverage": "jest --verbose --coverage",
+    "postversion": "git push && git push --tags"
+  },
+  "files": [
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/norbornen/yet-another-yandex-translate.git"
+  },
+  "keywords": [
+    "postgres",
+    "interval",
+    "parser",
+    "typescript"
+  ],
+  "author": "norbornen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/norbornen/postgres-interval-class/issues"
+  },
+  "homepage": "https://github.com/norbornen/postgres-interval-class#readme",
+  "dependencies": {
+    "postgres-interval": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.17",
+    "@types/node": "^12.7.2",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    }
+  }
+}
