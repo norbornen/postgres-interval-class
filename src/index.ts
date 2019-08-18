@@ -8,20 +8,20 @@ export default class PostgresColumnInterval {
 
     protected interval: Interval = { years: 0, months: 0, days: 0, hours: 0, minutes: 0, seconds: 0, milliseconds: 0 };
 
-    constructor(value: string | Interval | PostgresColumnInterval) {
+    constructor(value: any) { // string | Interval | PostgresColumnInterval
         if (typeof value === 'string') {
             value = parse(value);
         }
         if (typeof value === 'object') {
             if ('interval' in value) {
-                value = value.interval as IPostgresInterval;
+                value = value.interval;
             }
             const interval = column_interval_properties.reduce((acc, key) => {
-                if (value.hasOwnProperty(key) && value[key] != null && value[key] !== undefined) {
+                if (value.hasOwnProperty(key) && value[key] !== null && value[key] !== undefined) {
                     acc[key] = value[key];
                 }
                 return acc;
-            }, {});
+            }, {} as Interval);
             Object.assign(this.interval, interval);
         }
     }
@@ -54,12 +54,12 @@ export default class PostgresColumnInterval {
 
     public toString(): string {
         const agg = column_interval_properties.reduce((acc, key) => {
-            if (key in this.interval && this.interval[key] > 0) {
-                acc.push(this[key] + ' ' + key);
+            if (key in this.interval && this.interval[key] !== undefined && this.interval[key] !== null && this.interval[key]! > 0) {
+                acc.push(`${this[key]} ${key}`);
             }
             return acc;
         },
-        []);
+        [] as string[]);
         return agg.join(' ') || '0';
     }
 
@@ -89,6 +89,7 @@ export default class PostgresColumnInterval {
             }, dn.interval);
             return dn as T;
         }
+        throw new Error('UNKNOWN ARG TYPE');
     }
 
     public sub(d: Date): Date;
@@ -113,7 +114,8 @@ export default class PostgresColumnInterval {
             }, dn.interval);
             return dn as T;
         }
+        throw new Error('UNKNOWN ARG TYPE');
     }
 }
 
-export { PostgresColumnInterval };
+export { PostgresColumnInterval, Interval };

@@ -14,8 +14,10 @@ test('#ctor', async () => {
 test('#add', async () => {
     expect.assertions(3);
     const pi = new PostgresColumnInterval('00:05:00');
-    const pi2 = pi.add(pi);
-    expect(pi2.minutes).toBe(10);
+    const pi2 = pi.add(new PostgresColumnInterval('00:15:00'));
+    expect(pi2.minutes).toBe(20);
+    console.log(pi2);
+    
 
     const d1 = new Date('2014-03-09T01:59:00');
     const d2 = pi.add(d1);
